@@ -21,6 +21,7 @@ N = 2*n+1000;
 m = 1000;
 L = [1:round(percenterasures(j)*N)];
 LC = setdiff(1:N,L);
+snr = [.01, .05, .10, .15, .2];
 
 f = Compressed_Image_Double;
 
@@ -33,7 +34,7 @@ DF = sqrt(N/n)*A(:,1:n)';
 EF = sqrt(n/N)*A(:,n+1:2*n)' + (n/N)*DF;
 M = sqrt(N/m)*A(:,2*n+1:2*n+m)';
 
-snr = [.01, .05, .10, .15, .2]
+
 
 fprintf('Reconstructing Erasures \n');
 
@@ -55,7 +56,7 @@ for(j = 1:1:length(snr))
     FC = EF' * f;
     FC(L) = zeros(size(L'));
     noise = randn(length(LC));
-    noise = noise / norm(noise) * 
+    noise = noise / norm(noise) * snr(j) * norm(FC(LC));
     FC(LC) = FC(LC) + noise;
     f_R = DF*FC;
 
@@ -78,7 +79,7 @@ for(j = 1:1:length(snr))
     imshow(J_f_R);
     title('Erased Image with Noise');
 
-    subplot(3,3,5+j);
+    subplot(3,3,6+j);
     imshow(J_g);
     title('Reconstructed with Noise');
 
