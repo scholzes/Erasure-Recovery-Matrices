@@ -54,27 +54,43 @@ fprintf('Plotting Images \n');
 
 C_f = zeros(256*256,1); % Compressed Image.
 C_g = zeros(256*256,1); % Reconstructed Image.
+% C_g1 = zeros(256*256,1);
 
 I1 = sort(I(1:n),'ascend');
 
 C_f(I1) = f;
 C_g(I1(1:n)) = g;
-
-Uncompressed_f = ifft(C_f);
-Uncompressed_f = reshape(Uncompressed_f,[256,256]);
+% C_g(I1(1:n)) = g1;
+% C_g1(I1(1:n)) = g;
+% C_g1(I(n+1:256*256)) = LSC;
 
 Uncompressed_g = ifft(C_g);
 Uncompressed_g = reshape(Uncompressed_g,[256,256]);
 
+Uncompressed_f = ifft(C_f);
+Uncompressed_f = reshape(Uncompressed_f,[256,256]);
+
+% Uncompressed_g1 = ifft(C_g1);
+% Uncompressed_g1 = reshape(Uncompressed_g1,[256,256]);
+
 J_g = uint8(Uncompressed_g);
+% J_g1 = uint8(Uncompressed_g1);
 J_f = uint8(Uncompressed_f);
 
 figure;
 
-subplot(1,2,1);
+% subplot(1,2,1);
+% imshow(uint8(Original_Image_Double));
+% title('Original Image');
+
+subplot(2,2,2);
 imshow(J_f);
 title('Compressed Image');
 
-subplot(1,2,2);
+subplot(2,2,3);
+imshow(J_g2);
+title('Reconstructed with Wrong ERM');
+
+subplot(2,2,4);
 imshow(J_g);
-title('Reconstructed Image');
+title('Compressed Image Reconstructed');
