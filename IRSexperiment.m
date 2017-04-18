@@ -4,7 +4,7 @@ clc;
 
 fprintf('Reading Image \n');
 
-COMPRESSION_PERCENT = 0.03; % Compressed Signal will be approximately
+COMPRESSION_PERCENT = 0.10; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
 % percenterasures = .01;
 
@@ -91,7 +91,7 @@ for(j = 1:1:3)
     imshow(J_g);
     title('Correct Erasure Recovery Matrix');
 
-    subplot(3,3,5+j);
+    subplot(3,3,6+j);
     imshow(J_g1);
     title('Incorrect Erasure Recovery Matrix');
 
