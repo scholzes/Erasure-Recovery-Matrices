@@ -4,11 +4,11 @@ clc;
 
 fprintf('Reading Image \n');
 
-COMPRESSION_PERCENT = 0.10; % Compressed Signal will be approximately
+COMPRESSION_PERCENT = 0.15; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
 percenterasures = .05;
 
-Original_Image_Double = double(imread('Lena.bmp'));
+Original_Image_Double = double(imread('Pepper.bmp'));
 
 fprintf('Performing Image Compression \n')
 
@@ -17,11 +17,11 @@ Compressed_Image_Double = fft(reshape(Original_Image_Double,[256*256,1]));
 n = round(COMPRESSION_PERCENT*256*256)
 Compressed_Image_Double(I(n+1:256*256)) = [];
 
-N = 2*n+1000;
-m = 1000;
+m = 1100;
+N = 2*n+m;
 L = [1:round(percenterasures*N)];
 LC = setdiff(1:N,L);
-snr = [.01, .05, .10, .15, .2];
+snr = [.01, .03, .05, .07, .09];
 
 f = Compressed_Image_Double;
 
@@ -80,5 +80,8 @@ for(j = 1:1:length(snr))
     subplot(3,5,10+j);
     imshow(J_g);
     title('Reconstructed with Noise');
+    
+    norm(noise)
+    norm(f-f_R)
 
 end
