@@ -1,16 +1,13 @@
-m = 100;
-n = 100;
+m = 200;
+n = 200;
 N = 1000;
 snr = .05;
-Trials = 20;
+Trials = 50;
+EC = [5:5:20];
 
-Data = zeros(Trials,length(5:5:75));
+Data = zeros(length(EC),Trials);
 
-figure;
-plot([0],[0],'o');
-hold on;
-
-for(k=[5:5:75])
+for(k=1:1:length(EC))
     
     for(t = 1:1:Trials)
         
@@ -39,8 +36,7 @@ for(k=[5:5:75])
         
         g = f_R + DF(:,L) * FC(L);
         
-        % Data(t,k/5) = norm(f-g);
-        plot([k],[norm(f-g)],'x')
+        Data(k,t) = norm(f-g);
         
     end
     
@@ -48,4 +44,10 @@ for(k=[5:5:75])
 
 end
 
+X = repmat(EC,Trials);
+X1 = reshape(X,[length(EC)*Trials,1]);
+Y = reshape(Data,[length(EC)*Trials,1]);
+plot(X1,Y,'x')
+hold on;
+plot(EC,median(Data));
 hold off;
