@@ -8,7 +8,7 @@ COMPRESSION_PERCENT = 0.15; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
 % percenterasures = .01;
 
-Original_Image_Double = double(imread('Lena.bmp'));
+Original_Image_Double = double(imread('Pepper.bmp'));
 
 fprintf('Performing Image Compression \n')
 
@@ -93,15 +93,11 @@ for(j = 1:1:length(percenterasures))
     Uncompressed_g1 = reshape(Uncompressed_g1,[256,256]);
     J_g1 = uint8(Uncompressed_g1);
 
-    subplot(3,5,j);
-    imshow(J_g);
-    title('No Reconstruction');
-    
-    subplot(3,5,5+j);
+    subplot(3,3,3+j);
     imshow(J_g);
     title('Correct Erasure Recovery Matrix');
 
-    subplot(3,5,10+j);
+    subplot(3,3,6+j);
     imshow(J_g1);
     title('Incorrect Erasure Recovery Matrix');
 
