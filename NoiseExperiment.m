@@ -6,9 +6,9 @@ fprintf('Reading Image \n');
 
 COMPRESSION_PERCENT = 0.15; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
-percenterasures = .05;
+percenterasures = .03;
 
-Original_Image_Double = double(imread('Pepper.bmp'));
+Original_Image_Double = double(imread('Lena.bmp'));
 
 fprintf('Performing Image Compression \n')
 
