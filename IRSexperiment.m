@@ -94,7 +94,7 @@ for(j = 1:1:length(percenterasures))
     J_g1 = uint8(Uncompressed_g1);
 
     subplot(3,5,j);
-    imshow(J_g);
+    imshow(J_f_R);
     title('No Reconstruction');
     
     subplot(3,5,5+j);
