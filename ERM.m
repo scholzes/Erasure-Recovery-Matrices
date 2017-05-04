@@ -1,8 +1,8 @@
-m = 100;
-n = 100;
+m = 250;
+n = 250;
 N = 1000;
 snr = .05;
-Trials = 20;
+Trials = 50;
 
 Data = zeros(Trials,length(5:5:75));
 
