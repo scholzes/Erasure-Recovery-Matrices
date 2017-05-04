@@ -8,7 +8,7 @@ COMPRESSION_PERCENT = 0.15; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
 percenterasures = [.01, .02, .03, .04, .05];
 
-Original_Image_Double = double(imread('Pepper.bmp'));
+Original_Image_Double = double(imread('Lena.bmp'));
 
 fprintf('Performing Image Compression \n')
 
@@ -26,7 +26,7 @@ f = Compressed_Image_Double;
 fprintf('Creating Frames \n');
 
 M = randn(m,N);
-M = 1 / sqrt(m) * M';
+M = 1 / sqrt(m) * M;
 A = [M',randn(N,n)];
 [A,~] = qr(A,0);
 F = A(:,m+1:m+n)';
@@ -42,7 +42,7 @@ Uncompressed_f = ifft(C_f);
 Uncompressed_f = reshape(Uncompressed_f,[256,256]);
 J_f = uint8(Uncompressed_f);
 
-% subplot(3,5,3);
+% subplot(4,5,3);
 % imshow(J_f);
 % title('Compressed Image');
 
@@ -50,7 +50,7 @@ for(j = 1:1:length(percenterasures))
 
     L = [1:round(percenterasures(j)*N)];
     LC = setdiff(1:N,L);
-    FC = EF' * f;
+    FC = F' * f;
     FC1 = FC;
     FC(L) = zeros(size(L'));
     noise = randn(size(LC'));
@@ -81,15 +81,15 @@ for(j = 1:1:length(percenterasures))
     Uncompressed_g = reshape(Uncompressed_g,[256,256]);
     J_g = uint8(Uncompressed_g);
 
-    subplot(3,5,j);
+    subplot(4,5,j);
     imshow(J_fnoise);
     title('Noisy Image');
 
-    subplot(3,5,5+j);
+    subplot(4,5,5+j);
     imshow(J_f_R);
     title('Erased Image with Noise');
 
-    subplot(3,5,10+j);
+    subplot(4,5,10+j);
     imshow(J_g);
     title('Reconstructed with Noise');
     

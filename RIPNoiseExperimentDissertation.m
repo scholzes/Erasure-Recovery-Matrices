@@ -3,7 +3,7 @@ n = 250;
 N = 1000;
 snr = .05;
 Trials = 50;
-EC = [10:10:100];
+EC = [10:10:250];
 
 Data = zeros(Trials,length(EC));
 Data2 = zeros(Trials,length(EC));
@@ -16,10 +16,10 @@ for(k=1:1:length(EC))
         LC = setdiff(1:N,L);
         
         M = randn(m,N);
-	M = (1 / sqrt(m)) * M';
-	A = [M',randn(N,n)];
-	[A,~] = qr(A,0);
-	F = A(:,m+1:m+n)';
+        M = (1 / sqrt(m)) * M;
+        A = [M',randn(N,n)];
+        [A,~] = qr(A,0);
+        F = A(:,m+1:m+n)';
         
         f = randn(n,1);
         f = f./norm(f,2);
@@ -51,6 +51,7 @@ Y = reshape(Data,[length(EC)*Trials,1]);
 Z = reshape(Data2,[length(EC)*Trials,1]);
 plot(X,Y,'x')
 hold on;
+plot(X,Z,'+')
 plot(EC,median(Data));
 title('Erasure Set Size vs Reconstruction Error');
 xlabel('Erasure Set Size');
