@@ -24,22 +24,27 @@ f = Compressed_Image_Double;
 
 fprintf('Creating Frames \n');
 
-A = randn(N,2*n+m);
+M = (1/sqrt(m)) * randn(m,N);
+A = [M',randn(N,2*n)];
 [A,~] = qr(A,0);
+DF = A(:,m+1:m+n)';
+EF = A(:,m+n+1:m+2*n)' + DF;
 
-DF = sqrt(N/n)*A(:,1:n)';
-EF = sqrt(n/N)*A(:,n+1:2*n)' + (n/N)*DF;
-M = sqrt(N/m)*A(:,2*n+1:2*n+m)';
+% A = randn(N,2*n+m);
+% [A,~] = qr(A,0);
+% 
+% DF = sqrt(N/n)*A(:,1:n)';
+% EF = sqrt(n/N)*A(:,n+1:2*n)' + (n/N)*DF;
+% M = sqrt(N/m)*A(:,2*n+1:2*n+m)';
 
 fprintf('Creating More Frames \n');
 
-A1 = randn(N,2*n+m);
-A1(:,1:n) = DF';
-[A1,~] = qr(A1,0);
+A = [DF',randn(N,n+m)];
+[A,~] = qr(A,0);
 
-DF1 = sqrt(N/n)*A1(:,1:n)';
-EF1 = sqrt(n/N)*A1(:,n+1:2*n)' + (n/N)*DF1;
-M1 = sqrt(N/m)*A1(:,2*n+1:2*n+m)';
+DF1 = DF;
+EF1 = A(:,n+m+1:2*n+m)' + DF1;
+M1 = sqrt(N/m) * A(:,n+1:n+m)';
 
 fprintf('Reconstructing Erasures \n');
 
@@ -58,11 +63,14 @@ J_f = uint8(Uncompressed_f);
 % imshow(J_f);
 % title('Compressed Image');
 
+Data = zeros(2,length(percenterasures));
+
 for(j = 1:1:length(percenterasures))
 
     L = [1:round(percenterasures(j)*N)];
 
     FC = EF' * f;
+    Data(1,j) = norm(FC(L));
     FC(L) = zeros(size(L'));
     FC1 = FC;
     f_R = DF*FC;
@@ -72,6 +80,7 @@ for(j = 1:1:length(percenterasures))
     g = f_R + DF(:,L) * FC(L);
 
     FC1(L) = -(M1(:,L)' * M1(:,L))\(M1(:,L)' * (M1(:,LC) * FC1(LC)));
+    Data(2,j) = norm(FC1(L));
 
     g1 = f_R + DF(:,L) * FC1(L);
     
@@ -106,3 +115,5 @@ for(j = 1:1:length(percenterasures))
     title('Incorrect Erasure Recovery Matrix');
 
 end
+
+Data
