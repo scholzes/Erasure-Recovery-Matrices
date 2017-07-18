@@ -4,7 +4,7 @@ clc;
 
 fprintf('Reading Image \n');
 
-COMPRESSION_PERCENT = 0.20; % Compressed Signal will be approximately
+COMPRESSION_PERCENT = 0.15; % Compressed Signal will be approximately
 % n = 256^2 * COMPRESSION_PERCENT dimensional.
 percenterasures = [.01, .02, .03, .04, .05];
 
@@ -17,7 +17,7 @@ Compressed_Image_Double = fft(reshape(Original_Image_Double,[256*256,1]));
 n = round(COMPRESSION_PERCENT*256*256);
 Compressed_Image_Double(I(n+1:256*256)) = [];
 
-m = 3000;
+m = 2000;
 N = 2*n+m;
 snr = .05;
 
@@ -30,7 +30,9 @@ A = [M',randn(N,2*n)];
 [A,~] = qr(A,0);
 F = A(:,m+1:m+n)';
 K = A(:,m+n+1:m+2*n)';
+clearvars A;
 G = F + K;
+clearvars K;
 
 fprintf('Reconstructing Erasures \n');
 
@@ -69,33 +71,40 @@ for(j = 1:1:length(percenterasures))
     Uncompressed_fnoise = ifft(C_fnoise);
     Uncompressed_fnoise = reshape(Uncompressed_fnoise,[256,256]);
     J_fnoise = uint8(Uncompressed_fnoise);
+    clearvars C_fnoise Uncompressed_fnoise;
 
     C_f_R = zeros(256*256,1); % Erased Image with noise.
     C_f_R(I1(1:n)) = f_R;
     Uncompressed_f_R = ifft(C_f_R);
     Uncompressed_f_R = reshape(Uncompressed_f_R,[256,256]);
     J_f_R = uint8(Uncompressed_f_R);
+    clearvars C_f_R Uncompressed_f_R;
 
     C_g = zeros(256*256,1); % Reconstructed Image.
     C_g(I1(1:n)) = g;
     Uncompressed_g = ifft(C_g);
     Uncompressed_g = reshape(Uncompressed_g,[256,256]);
     J_g = uint8(Uncompressed_g);
+    clearvars C_g Uncompressed_g;
 
     subplot(3,5,j);
     imshow(J_fnoise);
     title('Noisy Image');
+    clearvars J_fnoise;
 
     subplot(3,5,5+j);
     imshow(J_f_R);
     title('Erased Image with Noise');
+    clearvars J_f_R;
 
     subplot(3,5,10+j);
     imshow(J_g);
     title('Reconstructed with Noise');
+    clearvars J_g;
     
-    norm(noise)
-    norm(f-f_R)
+    norm(noise);
+    norm(f-f_R);
+    norm(f-g)
 
 end
 
@@ -123,32 +132,39 @@ for(j = 1:1:length(percenterasures))
     Uncompressed_fnoise = ifft(C_fnoise);
     Uncompressed_fnoise = reshape(Uncompressed_fnoise,[256,256]);
     J_fnoise = uint8(Uncompressed_fnoise);
+    clearvars C_fnoise Uncompressed_fnoise;
 
     C_f_R = zeros(256*256,1); % Erased Image with noise.
     C_f_R(I1(1:n)) = f_R;
     Uncompressed_f_R = ifft(C_f_R);
     Uncompressed_f_R = reshape(Uncompressed_f_R,[256,256]);
     J_f_R = uint8(Uncompressed_f_R);
+    clearvars C_f_R Uncompressed_f_R;
 
     C_g = zeros(256*256,1); % Reconstructed Image.
     C_g(I1(1:n)) = g;
     Uncompressed_g = ifft(C_g);
     Uncompressed_g = reshape(Uncompressed_g,[256,256]);
     J_g = uint8(Uncompressed_g);
+    clearvars C_g Uncompressed_g;
 
     subplot(3,5,j);
     imshow(J_fnoise);
     title('Noisy Image');
+    clearvars J_fnoise;
 
     subplot(3,5,5+j);
     imshow(J_f_R);
     title('Erased Image with Noise');
+    clearvars J_f_R;
 
     subplot(3,5,10+j);
     imshow(J_g);
     title('Reconstructed with Noise');
+    clearvars J_g;
     
-    norm(noise)
-    norm(f-f_R)
+    norm(noise);
+    norm(f-f_R);
+    norm(f-g)
 
 end
